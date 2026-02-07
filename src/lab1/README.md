@@ -1,5 +1,6 @@
 # miot-sl
 Máster en IoT
+
 ## Seguridad y Legalidad
 ```
 Máster IoT, curso 25-26
@@ -21,3 +22,5 @@ Máster IoT, curso 25-26
 anteriores, explicando todo el proceso y mostrando los
 resultados (intermedios y finales) con capturas de pantalla
 ```
+
+**Contraseña para el comprimido "seguridad"**
