@@ -4,7 +4,8 @@ Máster en IoT
 ## Seguridad y Legalidad
 ```
 Máster IoT, curso 25-26
- 	└── Autor
+ 	└── Autores
+ 	 	       |── GISSELA PATRICIA TASIGUANO 
  		    └── Ariel Gámez <arielg01@ucm.es>
 ```
 
