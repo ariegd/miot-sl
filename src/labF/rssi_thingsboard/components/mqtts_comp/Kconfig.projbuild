@@ -1,10 +1,10 @@
 menu "MQTTS Configuration"
 
-   choice BROKER_SELECTION
+    choice BROKER_SELECTION
         prompt "Select MQTT Broker Destination"
         default BROKER_THINGSBOARD
         help
-            Elija el servidor preconfigurado o una dirección personalizada. 
+            Elija el servidor preconfigurado o una dirección personalizada.
 
         config BROKER_MOSQUITTO
             bool "Mosquitto Test (test.mosquitto.org)"
@@ -15,49 +15,65 @@ menu "MQTTS Configuration"
         config BROKER_CUSTOM_IP
             bool "Dirección IP Local / Personalizada"
     endchoice
-                
-     config TB_PROVISION_KEY
-          string "ThingsBoard Provision Device Key"
-          default "PUT_YOUR_KEY_HERE"
-          depends on BROKER_THINGSBOARD 
-          help
-              Key obtenida en Device Profiles -> Tu Perfil -> Device Provisioning.
 
-     config TB_PROVISION_SECRET
-         string "ThingsBoard Provision Device Secret"
-         default "PUT_YOUR_SECRET_HERE"
-         depends on BROKER_THINGSBOARD 
-         help
-             Secret obtenido en Device Profiles -> Tu Perfil -> Device Provisioning.
-        
-     config BROKER_URI
-         string "Broker URL"
-         depends on BROKER_CUSTOM_IP
-         default "mqtts://10.174.33.72:8883"
-         help
-             URL of an mqtt broker which this example connects to. [cite: 2, 7]
+    # --- NUEVO: Selección de protocolo ---
+    choice BROKER_TRANSPORT
+        prompt "Seleccionar Protocolo de Transporte"
+        default TRANSPORT_MQTTS
+        help
+            Elija entre conexión segura (TLS) o plana.
 
-    # Estas variables se mantienen ocultas pero calculan el valor para el código C
+        config TRANSPORT_MQTTS
+            bool "MQTTS (Seguro - Puerto 8883)"
+
+        config TRANSPORT_MQTT
+            bool "MQTT (Plano - Puerto 1883)"
+    endchoice
+    # -------------------------------------
+
+    config TB_PROVISION_KEY
+        string "ThingsBoard Provision Device Key"
+        default "PUT_YOUR_KEY_HERE"
+        depends on BROKER_THINGSBOARD
+        help
+            Key obtenida en Device Profiles -> Tu Perfil -> Device Provisioning.
+
+    config TB_PROVISION_SECRET
+        string "ThingsBoard Provision Device Secret"
+        default "PUT_YOUR_SECRET_HERE"
+        depends on BROKER_THINGSBOARD
+        help
+            Secret obtenido en Device Profiles -> Tu Perfil -> Device Provisioning.
+
+    config BROKER_URI
+        string "Broker URL"
+        depends on BROKER_CUSTOM_IP
+        default "mqtts://10.174.33.72:8883"
+        help
+            URL of an mqtt broker which this example connects to.
+
+    # --- MODIFICADO: Generación dinámica según el protocolo ---
     config BROKER_URI_INTERNAL
         string
-        default "mqtts://demo.thingsboard.io:8883" if BROKER_THINGSBOARD
-        default "mqtts://test.mosquitto.org:8883" if BROKER_MOSQUITTO
+        default "mqtts://mqtt.eu.thingsboard.cloud:8883" if BROKER_THINGSBOARD && TRANSPORT_MQTTS
+        default "mqtt://mqtt.eu.thingsboard.cloud:1883" if BROKER_THINGSBOARD && TRANSPORT_MQTT
+        default "mqtts://test.mosquitto.org:8883" if BROKER_MOSQUITTO && TRANSPORT_MQTTS
+        default "mqtt://test.mosquitto.org:1883" if BROKER_MOSQUITTO && TRANSPORT_MQTT
         default BROKER_URI if BROKER_CUSTOM_IP
 
+    # (El resto del archivo se mantiene igual a partir de aquí)
     config BROKER_CERTIFICATE_OVERRIDE
         string "Broker certificate override"
         default ""
         help
-            Please leave empty if broker certificate included from a textfile; otherwise fill in a base64 part of PEM
-            format certificate
+            Please leave empty if broker certificate included from a textfile;
+            otherwise fill in a base64 part of PEM format certificate
 
     config BROKER_CERTIFICATE_OVERRIDDEN
         bool
         default y if BROKER_CERTIFICATE_OVERRIDE != ""
 
     config BROKER_BIN_SIZE_TO_SEND
-        # This option is not visible and is used only to set parameters for example tests
-        # Here we configure the data size to send and to be expected in the python script
         int
         default 20000
 

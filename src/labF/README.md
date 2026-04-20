@@ -250,6 +250,9 @@ Qué debes observar en la pantalla:
 
 ## Problemas encontrados
 
+### Flexibilizar el firmware de tu ESP32-C6.
+Dejar los protocolos "hardcodeados" en el código fuente no es escalable para un entorno de producción, y migrar esa configuración a idf.py menuconfig te dará la agilidad necesaria para cambiar entre entornos de pruebas (MQTT plano) y producción (MQTTS cifrado) sin tocar la lógica principal.
+
 ### "huella digital" antigua
 Este mensaje aparece porque anteriormente te habías conectado a otra máquina (o a la misma VM antes de reinstalarla/resetearla) que usaba la IP 192.168.1.40. Tu Debian tiene guardada una "huella digital" antigua y, al ver que la actual es diferente, te bloquea por seguridad.
 La solución rápida

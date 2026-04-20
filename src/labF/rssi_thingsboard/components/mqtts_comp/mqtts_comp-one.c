@@ -203,9 +203,10 @@ static void mqtt_app_start(void)
     }
 
     const char *username_to_use;
-
-    // --- ELIMINADA la URI hardcodeada ---
-    // La URI ahora proviene directamente de menuconfig a través de CONFIG_BROKER_URI_INTERNAL
+    //const char *uri_to_use = "mqtts://demo.thingsboard.io:8883";
+    //const char *uri_to_use = "mqtt://demo.thingsboard.io:1883";
+    //const char *uri_to_use = "mqtts://thingsboard.cloud:8883"; // generar
+    const char *uri_to_use = "mqtts://mqtt.eu.thingsboard.cloud:8883";
 
     if (is_provisioning_mode) {
         ESP_LOGW(TAG, "MODO: PROVISIONAMIENTO AUTOMÁTICO");
@@ -215,24 +216,19 @@ static void mqtt_app_start(void)
         username_to_use = thingsboard_token; // Usamos el token guardado
     }
 
-    // --- MODIFICADO: Configuración dinámica ---
     const esp_mqtt_client_config_t mqtt_cfg = {
         .broker = {
-            .address.uri = CONFIG_BROKER_URI_INTERNAL,
-            // ESP-IDF extrae automáticamente el hostname del URI, no es necesario forzarlo
-
-            #ifdef CONFIG_TRANSPORT_MQTTS
-            // Si menuconfig está en MQTTS, agregamos la configuración TLS
+            .address.uri = uri_to_use,
+            .address.hostname = "mqtt.eu.thingsboard.cloud",
+            // CAMBIO 2: Eliminar o comentar la parte del certificado
+            //.verification.certificate = mqtt_cert_ptr,
             .verification.crt_bundle_attach = esp_crt_bundle_attach,
             .verification.skip_cert_common_name_check = true,
-            #endif
         },
         .credentials = {
-            .username = username_to_use,
+            .username = username_to_use, // "provision" o el Token real
         },
     };
-
-    ESP_LOGI(TAG, "Conectando a Broker: %s", CONFIG_BROKER_URI_INTERNAL);
 
     global_client = esp_mqtt_client_init(&mqtt_cfg);
     esp_mqtt_client_register_event(global_client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
