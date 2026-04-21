@@ -16,14 +16,14 @@ A continuación se detalla la organización de los módulos del laboratorio:
 Plaintext
 ```
 .  
-├── attacks/                  \# Módulos de explotación y auditoría inalámbrica  
-│   ├── DoS/                  \# Ataques de Denegación de Servicio (Deauth)  
-│   ├── MitM/                 \# Interceptación Man-in-the-Middle (Evil Twin)  
-│   └── Sniffing/             \# Reconocimiento y descifrado de tráfico MQTT  
-├── rssi_thingsboard/         \# Firmware del nodo IoT (ESP-IDF)  
-│   ├── main/                 \# Lógica principal del sensor  
-│   └── components/           \# Librerías personalizadas (WiFi/MQTTS)  
-└── README.md                 \# Este archivo (Guía Central)
+├── attacks/                  # Módulos de explotación y auditoría inalámbrica  
+│   ├── DoS/                  # Ataques de Denegación de Servicio (Deauth)  
+│   ├── MitM/                 # Interceptación Man-in-the-Middle (Evil Twin)  
+│   └── Sniffing/             # Reconocimiento y descifrado de tráfico MQTT  
+├── rssi_thingsboard/         # Firmware del nodo IoT (ESP-IDF)  
+│   ├── main/                 # Lógica principal del sensor  
+│   └── components/           # Librerías personalizadas (WiFi/MQTTS)  
+└── README.md                 # Este archivo (Guía Central)
 ```
 
 ---
@@ -43,17 +43,17 @@ Para replicar esta auditoría se utilizó el siguiente inventario:
 
 Cada ataque tiene su propia documentación detallada sobre cómo ejecutarlo y qué scripts intervienen:
 
-### **📡 [1\. Módulo de Sniffing](https://www.google.com/search?q=./attacks/Sniffing/README.md)**
+### **📡 [1\. Módulo de Sniffing](https://github.com/ariegd/miot-sl/blob/labF/src/labF/attacks/Sniffing/README.md)**
 
 * **Scripts:** identificar\_esp32.sh, descifrar\_mqtt.sh  
 * **Objetivo:** Identificación pasiva del dispositivo y extracción de telemetría MQTT en texto plano mediante el descifrado de la capa WPA2.
 
-### **🚫 [2\. Módulo de Denegación de Servicio (DoS)](https://www.google.com/search?q=./attacks/DoS/README.md)**
+### **🚫 [2\. Módulo de Denegación de Servicio (DoS)](https://github.com/ariegd/miot-sl/blob/labF/src/labF/attacks/DoS/README.md)**
 
 * **Scripts:** ataque\_iot.sh  
 * **Objetivo:** Interrupción de la disponibilidad del servicio IoT mediante tramas de desautenticación forjadas.
 
-### **🎭 [3\. Módulo de Man-in-the-Middle (MitM)](https://www.google.com/search?q=./attacks/MitM/README.md)**
+### **🎭 [3\. Módulo de Man-in-the-Middle (MitM)](https://github.com/ariegd/miot-sl/blob/labF/src/labF/attacks/MitM/README.md)**
 
 * **Scripts:** evil\_twin.sh, evil\_twin\_movil.conf  
 * **Objetivo:** Suplantación del punto de acceso legítimo para la interceptación y manipulación total de los datos enviados a la nube.
@@ -62,7 +62,7 @@ Cada ataque tiene su propia documentación detallada sobre cómo ejecutarlo y qu
 
 **🔌 Implementación del Nodo IoT (Firmware)**
 
-El código fuente del dispositivo auditado se encuentra en la carpeta [**rssi\_thingsboard**](https://www.google.com/search?q=./rssi_thingsboard/README.md). Está desarrollado bajo el framework **ESP-IDF v5.x** y utiliza un diseño basado en una Máquina de Estados Finitos (FSM) para la gestión de eventos de red.
+El código fuente del dispositivo auditado se encuentra en la carpeta [**rssi\_thingsboard**](https://github.com/ariegd/miot-sl/blob/labF/src/labF/rssi_thingsboard/README.md). Está desarrollado bajo el framework **ESP-IDF v5.x** y utiliza un diseño basado en una Máquina de Estados Finitos (FSM) para la gestión de eventos de red.
 
 ### **⚠️ Vulnerabilidad Identificada**
 
