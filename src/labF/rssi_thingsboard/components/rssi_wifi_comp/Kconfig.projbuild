@@ -12,6 +12,19 @@ menu "RSSI-WiFi Configuration"
         help
             WiFi password (WPA or WPA2) for the example to use.
 
+    config ESP_WIFI_BSSID_CHECK
+        bool "Enable BSSID Verification (MAC Pinning)"
+        default n
+        help
+            Si se activa, el dispositivo solo se conectará al AP con la MAC especificada.
+
+    config ESP_WIFI_BSSID
+        string "Target BSSID (MAC Address)"
+        depends on ESP_WIFI_BSSID_CHECK
+        default "00:00:00:00:00:00"
+        help
+            Dirección MAC del Punto de Acceso en formato XX:XX:XX:XX:XX:XX.
+
     choice ESP_WIFI_SAE_MODE
         prompt "WPA3 SAE mode selection"
         default ESP_STATION_EXAMPLE_WPA3_SAE_PWE_BOTH

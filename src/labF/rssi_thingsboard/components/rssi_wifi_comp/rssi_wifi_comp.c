@@ -21,6 +21,7 @@
 
 #include "cJSON.h"
 #include "mqtts_comp.h"
+#include <stdio.h>
 
 /* The examples use WiFi configuration that you can set via project configuration menu
 
@@ -90,6 +91,12 @@ static const char *TAG = "wifi station";
 
 static int s_retry_num = 0;
 
+// Función para convertir string "AA:BB:CC..." a array de bytes
+static void parse_mac_address(const char* mac_str, uint8_t* mac_array) {
+    sscanf(mac_str, "%hhx:%hhx:%hhx:%hhx:%hhx:%hhx",
+           &mac_array[0], &mac_array[1], &mac_array[2],
+           &mac_array[3], &mac_array[4], &mac_array[5]);
+}
 
 static void event_handler(void* arg, esp_event_base_t event_base,
                                 int32_t event_id, void* event_data)
@@ -160,6 +167,17 @@ void wifi_init_sta(void)
             .sae_h2e_identifier = EXAMPLE_H2E_IDENTIFIER,
         },
     };
+
+    // --- NUEVA LÓGICA: BSSID Pinning ---
+#ifdef CONFIG_ESP_WIFI_BSSID_CHECK
+    wifi_config.sta.bssid_set = true;
+    parse_mac_address(CONFIG_ESP_WIFI_BSSID, wifi_config.sta.bssid);
+    ESP_LOGI(TAG, "BSSID Pinning ACTIVADO: Conectando solo a %s", CONFIG_ESP_WIFI_BSSID);
+#else
+    wifi_config.sta.bssid_set = false;
+    ESP_LOGW(TAG, "BSSID Pinning DESACTIVADO: El dispositivo se conectará a cualquier AP con el SSID correcto.");
+#endif
+    // -----------------------------------
 
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config) );
