@@ -80,4 +80,21 @@ menu "RSSI-WiFi Configuration"
             bool "Protocol Buffers (PBUF)"
     endchoice
 
+    choice ESP_WIFI_PMF_MODE
+            prompt "Protected Management Frame (PMF) mode"
+            default ESP_WIFI_PMF_DISABLE
+            help
+                Configura el nivel de seguridad para las tramas de gestión (802.11w).
+                - Disable: PMF desactivado (menos seguro, mayor compatibilidad con APs antiguos).
+                - Capable: PMF soportado y se usará si el AP lo soporta.
+                - Required: PMF obligatorio. La conexión fallará si el AP no lo soporta.
+
+        config ESP_WIFI_PMF_DISABLE
+            bool "Disable PMF"
+        config ESP_WIFI_PMF_CAPABLE
+            bool "PMF Capable (Optional)"
+        config ESP_WIFI_PMF_REQUIRED
+            bool "PMF Required"
+    endchoice
+
 endmenu

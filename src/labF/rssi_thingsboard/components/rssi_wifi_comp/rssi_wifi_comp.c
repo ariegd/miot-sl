@@ -59,6 +59,24 @@
 #define ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD WIFI_AUTH_WAPI_PSK
 #endif
 
+// --- NUEVO: Traducción de la configuración de PMF ---
+#if CONFIG_ESP_WIFI_PMF_DISABLE
+#define EXAMPLE_WIFI_PMF_CAPABLE false
+#define EXAMPLE_WIFI_PMF_REQUIRED false
+#elif CONFIG_ESP_WIFI_PMF_CAPABLE
+#define EXAMPLE_WIFI_PMF_CAPABLE true
+#define EXAMPLE_WIFI_PMF_REQUIRED false
+#elif CONFIG_ESP_WIFI_PMF_REQUIRED
+#define EXAMPLE_WIFI_PMF_CAPABLE true
+#define EXAMPLE_WIFI_PMF_REQUIRED true
+#else
+#define EXAMPLE_WIFI_PMF_CAPABLE false
+#define EXAMPLE_WIFI_PMF_REQUIRED false
+#endif
+// ----------------------------------------------------
+
+
+
 /* FreeRTOS event group to signal when we are connected*/
 static EventGroupHandle_t s_wifi_event_group;
 
@@ -101,7 +119,7 @@ void wifi_init_sta(void)
 
     //ESP_ERROR_CHECK(esp_netif_init());
     //ESP_ERROR_CHECK(esp_event_loop_create_default());
-    
+
     esp_netif_create_default_wifi_sta();
 
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
@@ -129,15 +147,20 @@ void wifi_init_sta(void)
              * to WIFI_AUTH_WEP/WIFI_AUTH_WPA_PSK and set the password with length and format matching to
              * WIFI_AUTH_WEP/WIFI_AUTH_WPA_PSK standards.
              */
-            .pmf_cfg = { // Bajando defensa :(
-                .capable = false,
-                .required = false
+
+            // --- MODIFICADO: Uso de macros de configuración ---
+            .pmf_cfg = {
+                .capable = EXAMPLE_WIFI_PMF_CAPABLE,
+                .required = EXAMPLE_WIFI_PMF_REQUIRED
             },
+            // --------------------------------------------------
+
             .threshold.authmode = ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD,
             .sae_pwe_h2e = ESP_WIFI_SAE_MODE,
             .sae_h2e_identifier = EXAMPLE_H2E_IDENTIFIER,
         },
     };
+
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config) );
     ESP_ERROR_CHECK(esp_wifi_start() );
@@ -147,10 +170,10 @@ void wifi_init_sta(void)
     /* Waiting until either the connection is established (WIFI_CONNECTED_BIT) or connection failed for the maximum
      * number of re-tries (WIFI_FAIL_BIT). The bits are set by event_handler() (see above) */
     EventBits_t bits = xEventGroupWaitBits(s_wifi_event_group,
-            WIFI_CONNECTED_BIT | WIFI_FAIL_BIT,
-            pdFALSE,
-            pdFALSE,
-            portMAX_DELAY);
+                                           WIFI_CONNECTED_BIT | WIFI_FAIL_BIT,
+                                           pdFALSE,
+                                           pdFALSE,
+                                           portMAX_DELAY);
 
     /* xEventGroupWaitBits() returns the bits before the call returned, hence we can test which event actually
      * happened. */
