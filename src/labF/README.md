@@ -5,7 +5,9 @@
 
 Este repositorio contiene la documentación técnica, el código fuente y los scripts de ataque utilizados en la auditoría de seguridad real realizada sobre un ecosistema IoT basado en el microcontrolador **ESP32-C6** y la plataforma **ThingsBoard Cloud**.
 
-<img width="639" height="471" alt="Image" src="https://github.com/ariegd/miot-sl/blob/labF/doc/labF/Untitled%20diagram-2026-04-21-100851.png" />
+<div align="center">
+    <img width="839" height="471" alt="Image" src="https://github.com/ariegd/miot-sl/blob/labF/doc/labF/Untitled%20diagram-2026-04-21-100851.png" />
+</div>
 
 **⚠️ AVISO LEGAL:** Todo el material contenido en este repositorio ha sido desarrollado con fines exclusivamente educativos y de auditoría ética dentro del marco de la asignatura **Seguridad y Legalidad (SyL)** de la Universidad Complutense de Madrid. El uso de estas herramientas contra infraestructuras ajenas sin autorización es ilegal.
 
