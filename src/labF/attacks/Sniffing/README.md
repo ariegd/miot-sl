@@ -15,11 +15,11 @@ Para ejecutar estos scripts en **Debian/Kali Linux**, es necesario instalar las 
 ```
 Bash
 
-\# Actualizar repositorios  
+# Actualizar repositorios  
 sudo apt update
 
-\# Instalar herramientas de auditoría inalámbrica y análisis  
-sudo apt install \-y aircrack-ng tshark network-manager wireless-tools
+# Instalar herramientas de auditoría inalámbrica y análisis  
+sudo apt install -y aircrack-ng tshark network-manager wireless-tools
 ```
 
 * **Aircrack-ng:** Suite para gestión de interfaces en modo monitor.  
@@ -39,8 +39,8 @@ Este script realiza un escaneo silencioso. No necesita la contraseña de la red 
 * **Uso:** 
 ```
 bash  
-  chmod \+x identificar\_esp32.sh  
-  sudo ./identificar\_esp32.sh  
+  chmod +x identificar_esp32.sh  
+  sudo ./identificar_esp32.sh  
 ```
 * **Resultado esperado:** Visualización de la dirección MAC 58:8C:81:20:63:E4 enviando paquetes de forma constante (cada 5 segundos).
 
@@ -52,8 +52,8 @@ Este script utiliza la clave WPA2 (hogz7998) para "abrir" los paquetes cifrados.
 * **Uso:**  
 ```
   Bash  
-  chmod \+x descifrar\_mqtt.sh  
-  sudo ./descifrar\_mqtt.sh
+  chmod +x descifrar_mqtt.sh  
+  sudo ./descifrar_mqtt.sh
 ```
 * **Acción Crítica:** Cuando el script indique "Buscando Handshake", se debe reiniciar el ESP32 para capturar las llaves de sesión.
 

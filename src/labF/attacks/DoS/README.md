@@ -14,11 +14,11 @@ Para ejecutar el script de ataque en **Debian**, necesitas las utilidades de la 
 ```
 Bash
 
-\# Actualizar los índices de paquetes  
+# Actualizar los índices de paquetes  
 sudo apt update
 
-\# Instalar las herramientas necesarias  
-sudo apt install \-y aircrack-ng network-manager wireless-tools
+# Instalar las herramientas necesarias  
+sudo apt install -y aircrack-ng network-manager wireless-tools
 ```
 
 * **aireplay-ng:** La herramienta principal para la inyección de tramas de desautenticación.  
@@ -41,11 +41,11 @@ El script automatiza todo el proceso de "derribo" de la conexión del ESP32-C6.
 ```
 Bash
 
-\# 1\. Dar permisos de ejecución  
-chmod \+x ataque\_iot.sh
+# 1. Dar permisos de ejecución  
+chmod +x ataque_iot.sh
 
-\# 2\. Ejecutar con privilegios de root (necesario para inyección de tráfico)  
-sudo ./ataque\_iot.sh
+# 2. Ejecutar con privilegios de root (necesario para inyección de tráfico)  
+sudo ./ataque_iot.sh
 ```
  ---
 
