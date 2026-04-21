@@ -67,24 +67,11 @@ sudo /sbin/rmmod kvm
 sudo modprobe -r kvm_intel
 ```
 
-## Trabajo con mv en VirtualBox, pero por linea de comandos
+## 🛠️ Cómo devolverle el control a NetworkManager
 ```
-# 1. Apaga la máquina actual
-VBoxManage controlvm "Kali-Evil" acpipowerbutton
+sudo nmcli device set wlxccbabd6179b5 managed yes
 
-# 2. Lánzala en modo "sin cabeza" (Headless)
-VBoxManage startvm "Kali-Evil" --type headless
-
-# 3. Confirma que está funcionando
-VBoxManage list runningvms
-
-# 4. Obtener solo la dirección IPv4 específica:
-VBoxManage guestproperty get "Kali-Evil" "/VirtualBox/GuestInfo/Net/0/V4/IP"
-
-VBoxManage guestproperty enumerate "Kali-Evil" | grep IP
-
-# ¿Cómo trabajar con ella ahora?
-ssh kali@<IP_DE_TU_NODO>
+sudo systemctl restart NetworkManager
 ```
 
 ## Revisar las ip de la wifi, para cambiar (No funciona)
