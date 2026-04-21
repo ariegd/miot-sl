@@ -20,7 +20,7 @@ Plaintext
 │   ├── DoS/                  \# Ataques de Denegación de Servicio (Deauth)  
 │   ├── MitM/                 \# Interceptación Man-in-the-Middle (Evil Twin)  
 │   └── Sniffing/             \# Reconocimiento y descifrado de tráfico MQTT  
-├── rssi\_thingsboard/         \# Firmware del nodo IoT (ESP-IDF)  
+├── rssi_thingsboard/         \# Firmware del nodo IoT (ESP-IDF)  
 │   ├── main/                 \# Lógica principal del sensor  
 │   └── components/           \# Librerías personalizadas (WiFi/MQTTS)  
 └── README.md                 \# Este archivo (Guía Central)
